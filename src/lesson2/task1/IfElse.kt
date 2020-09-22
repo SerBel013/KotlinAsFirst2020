@@ -70,17 +70,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if ((age % 100) < 11 || (age % 100) > 19) {
-        when {
-            (age % 10) == 1 -> return ("$age год")
-            (age % 10) < 5 && (age % 10) > 0 -> return ("$age года")
-            else -> return ("$age лет")
-        }
-    }
-    else{
-        return("$age лет")
+    return when {
+        (age % 100) >= 11 && (age % 100) <= 19 -> "$age лет"
+        (age % 10) == 1 -> "$age год"
+        (age % 10) < 5 && (age % 10) > 0 -> "$age года"
+        else -> "$age лет"
     }
 }
+
 
 /**
  * Простая (2 балла)
@@ -97,11 +94,9 @@ fun timeForHalfWay(
     val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     return when {
         s < t1 * v1 -> s / v1
-        s >= t1 * v1 && s < (t2 * v2 + t1 * v1) -> t1 + (s - v1 * t1) / v2
+        s < (t2 * v2 + t1 * v1) -> t1 + (s - v1 * t1) / v2
         else -> t1 + t2 + (s - v1 * t1 - v2 * t2) / v3
     }
-
-
 }
 
 /**
@@ -119,9 +114,9 @@ fun whichRookThreatens(
     rookX2: Int, rookY2: Int
 ): Int {
     return when {
-        (kingX == rookX1 || kingY == rookY1 ) && (kingX == rookX2 || kingY == rookY2 ) -> 3
-        (kingX == rookX1 || kingY == rookY1 ) && (kingX != rookX2 && kingY != rookY2 ) -> 1
-        (kingX != rookX1 && kingY != rookY1 ) && (kingX == rookX2 || kingY == rookY2 ) -> 2
+        (kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2) -> 3
+        (kingX == rookX1 || kingY == rookY1) && (kingX != rookX2 && kingY != rookY2) -> 1
+        (kingX != rookX1 && kingY != rookY1) && (kingX == rookX2 || kingY == rookY2) -> 2
         else -> 0
     }
 }
@@ -150,40 +145,7 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (a > b && a > c) {
-        if (a >= b + c) {
-            return(-1)
-        }
-        else return when {
-            sqr(a) == sqr(b) + sqr(c) -> 1
-            sqr(a) > sqr(b) + sqr(c) -> 2
-            else -> 0
-        }
-    }
-    else {
-        if (b > a && b > c) {
-            if (b >= a + c) {
-                return(-1)
-            }
-            else return when {
-                sqr(b) == sqr(a) + sqr(c) -> 1
-                sqr(b) > sqr(a) + sqr(c) -> 2
-                else -> 0
-            }
-        }
-        else {
-            if (c >= b + a) {
-                return(-1)
-            }
-            else return when {
-                sqr(c) == sqr(b) + sqr(a) -> 1
-                sqr(c) > sqr(b) + sqr(a) -> 2
-                else -> 0
-            }
-        }
-    }
-}
+fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
 
 /**
  * Средняя (3 балла)
@@ -200,7 +162,6 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         (a <= c) and (c <= b) and (b <= d) -> b - c
         (c <= a) and (a <= d) and (d <= b) -> d - a
         (a <= c) and (c <= d) and (d <= b) -> d - c
-        //(c <= a) and (a <= b) and (b <= d) -> b - a
-        else -> b -a
+        else -> b - a
     }
 }
