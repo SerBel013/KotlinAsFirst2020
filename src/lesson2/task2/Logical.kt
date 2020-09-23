@@ -3,6 +3,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import kotlin.math.sqrt
 
 /**
  * Пример
@@ -36,7 +37,16 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Дан номер месяца (от 1 до 12 включительно) и год (положительный).
  * Вернуть число дней в этом месяце этого года по григорианскому календарю.
  */
-fun daysInMonth(month: Int, year: Int): Int = TODO()
+fun daysInMonth(month: Int, year: Int): Int {
+    return when {
+        month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12 -> 31
+        month == 4 || month == 6 || month == 9 || month == 11 -> 30
+        year % 400 == 0 -> 29
+        year % 100 == 0 -> 28
+        year % 4 == 0 -> 29
+        else -> 28
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -48,7 +58,12 @@ fun daysInMonth(month: Int, year: Int): Int = TODO()
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = TODO()
+): Boolean {
+    return when {
+        r2 - sqrt(sqr(x1 - x2) + sqr(y1 - y2)) >= r1 -> true
+        else -> false
+    }
+}
 
 /**
  * Средняя (3 балла)
@@ -59,4 +74,15 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val a1 = a <= r
+    val a2 = a <= s
+    val b1 = b <= r
+    val b2 = b <= s
+    val c1 = c <= r
+    val c2 = c <= s
+    return when {
+        a1 && b2 || a1 && c2 || a2 && b1 || a2 && c1 || b1 && c2 || b2 && c1 -> true
+        else -> false
+    }
+}
