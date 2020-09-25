@@ -57,10 +57,8 @@ fun daysInMonth(month: Int, year: Int): Int = when {
 fun circleInside(
     x1: Double, y1: Double, r1: Double,
     x2: Double, y2: Double, r2: Double
-): Boolean = when {
-    r2 - sqrt(sqr(x1 - x2) + sqr(y1 - y2)) >= r1 -> true
-    else -> false
-}
+): Boolean = r2 - sqrt(sqr(x1 - x2) + sqr(y1 - y2)) >= r1
+
 
 
 /**
@@ -72,15 +70,6 @@ fun circleInside(
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val a1 = a <= r
-    val a2 = a <= s
-    val b1 = b <= r
-    val b2 = b <= s
-    val c1 = c <= r
-    val c2 = c <= s
-    return when {
-        a1 && b2 || a1 && c2 || a2 && b1 || a2 && c1 || b1 && c2 || b2 && c1 -> true
-        else -> false
-    }
-}
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
+    a <= r && (b <= s || c <= s) || b <= r && (a <= s || c <= s) || c <= r && (a <= s || b <= s)
+
