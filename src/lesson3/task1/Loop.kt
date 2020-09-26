@@ -96,7 +96,7 @@ fun fib(n: Int): Int {
     var fib1 = 1
     var fib2 = 1
     var fib = 1
-    for (i in 3..n){
+    for (i in 3..n) {
         fib = fib1 + fib2
         fib1 = fib2
         fib2 = fib
