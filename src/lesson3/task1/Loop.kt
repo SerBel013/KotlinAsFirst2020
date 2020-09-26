@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import kotlin.math.sqrt
 
 // Урок 3: циклы
@@ -226,7 +227,19 @@ fun cos(x: Double, eps: Double): Double = TODO()
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var count = 0
+    var number = 0
+    while (count < n) {
+        number += 1
+        count += digitNumber(sqr(number))
+    }
+    number = sqr(number)
+    for (i in 2..count + 1 - n) {
+        number /= 10
+    }
+    return (number % 10)
+}
 
 /**
  * Сложная (5 баллов)
@@ -238,3 +251,6 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+//
+//
+//
