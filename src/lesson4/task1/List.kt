@@ -4,6 +4,10 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import lesson3.task1.isPrime
+import ru.spbstu.ktuples.Tuple0.size
+import java.lang.Math.pow
+import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Урок 4: списки
@@ -187,7 +191,12 @@ fun polynom(p: List<Int>, x: Int): Int = TODO()
  *
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
-fun accumulate(list: MutableList<Int>): MutableList<Int> = TODO()
+fun accumulate(list: MutableList<Int>): MutableList<Int> {
+    for (i in 1 until list.size) {
+        list[i] += list[i - 1]
+    }
+    return (list)
+}
 
 /**
  * Средняя (3 балла)
@@ -236,7 +245,15 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var sum = 0
+    var x = 0
+    for (i in digits.size - 1 downTo 0) {
+        sum += base.toDouble().pow(x.toDouble()).toInt() * digits[i]
+        x += 1
+    }
+    return (sum)
+}
 
 /**
  * Сложная (4 балла)
