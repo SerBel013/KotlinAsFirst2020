@@ -223,7 +223,15 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var n1 = n
+    while (n1 > 0) {
+        list.add(n1 % base)
+        n1 /= base
+    }
+    return list.reversed()
+}
 
 /**
  * Сложная (4 балла)
@@ -237,46 +245,16 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun convertToString(n: Int, base: Int): String {
-    var list = mutableListOf<Int>()
-    var n1 = n
+    val list = convert(n, base)
+    if (list.isEmpty()) return ("0")
     var s = ""
-    while (n1 > 0) {
-        list.add(n1 % base)
-        n1 /= base
-    }
-    for (i in list.size - 1 downTo 0) {
+    for (i in list.indices) {
         s += when {
-            list[i] == 10 -> 'a'
-            list[i] == 11 -> 'b'
-            list[i] == 12 -> 'c'
-            list[i] == 13 -> 'd'
-            list[i] == 14 -> 'e'
-            list[i] == 15 -> 'f'
-            list[i] == 16 -> 'g'
-            list[i] == 17 -> 'h'
-            list[i] == 18 -> 'i'
-            list[i] == 19 -> 'j'
-            list[i] == 20 -> 'k'
-            list[i] == 21 -> 'l'
-            list[i] == 22 -> 'm'
-            list[i] == 23 -> 'n'
-            list[i] == 24 -> 'o'
-            list[i] == 25 -> 'p'
-            list[i] == 26 -> 'q'
-            list[i] == 27 -> 'r'
-            list[i] == 28 -> 's'
-            list[i] == 29 -> 't'
-            list[i] == 30 -> 'u'
-            list[i] == 31 -> 'v'
-            list[i] == 32 -> 'w'
-            list[i] == 33 -> 'x'
-            list[i] == 34 -> 'y'
-            list[i] == 35 -> 'z'
+            list[i] > 9 -> (list[i] + 87).toChar()
             else -> list[i]
         }
     }
-    return if (s == "") ("0")
-    else (s)
+    return (s)
 }
 
 /**
@@ -288,10 +266,8 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var sum = 0
-    var x = 0
     for (i in digits.size - 1 downTo 0) {
-        sum += base.toDouble().pow(x.toDouble()).toInt() * digits[i]
-        x += 1
+        sum += base.toDouble().pow((digits.size - 1 - i).toDouble()).toInt() * digits[i]
     }
     return (sum)
 }
