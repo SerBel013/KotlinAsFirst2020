@@ -275,7 +275,8 @@ fun convertToString(n: Int, base: Int): String {
             else -> list[i]
         }
     }
-    return (s)
+    return if (s == "") ("0")
+    else (s)
 }
 
 /**
