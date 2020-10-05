@@ -236,7 +236,47 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Использовать функции стандартной библиотеки, напрямую и полностью решающие данную задачу
  * (например, n.toString(base) и подобные), запрещается.
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var list = mutableListOf<Int>()
+    var n1 = n
+    var s = ""
+    while (n1 > 0) {
+        list.add(n1 % base)
+        n1 /= base
+    }
+    for (i in list.size - 1 downTo 0) {
+        s += when {
+            list[i] == 10 -> 'a'
+            list[i] == 11 -> 'b'
+            list[i] == 12 -> 'c'
+            list[i] == 13 -> 'd'
+            list[i] == 14 -> 'e'
+            list[i] == 15 -> 'f'
+            list[i] == 16 -> 'g'
+            list[i] == 17 -> 'h'
+            list[i] == 18 -> 'i'
+            list[i] == 19 -> 'j'
+            list[i] == 20 -> 'k'
+            list[i] == 21 -> 'l'
+            list[i] == 22 -> 'm'
+            list[i] == 23 -> 'n'
+            list[i] == 24 -> 'o'
+            list[i] == 25 -> 'p'
+            list[i] == 26 -> 'q'
+            list[i] == 27 -> 'r'
+            list[i] == 28 -> 's'
+            list[i] == 29 -> 't'
+            list[i] == 30 -> 'u'
+            list[i] == 31 -> 'v'
+            list[i] == 32 -> 'w'
+            list[i] == 33 -> 'x'
+            list[i] == 34 -> 'y'
+            list[i] == 35 -> 'z'
+            else -> list[i]
+        }
+    }
+    return (s)
+}
 
 /**
  * Средняя (3 балла)
