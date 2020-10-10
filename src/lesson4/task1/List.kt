@@ -247,12 +247,11 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base)
-    if (list.isEmpty()) return ("0")
     var s = ""
-    for (i in list.indices) {
+    for (element in list) {
         s += when {
-            list[i] > 9 -> (list[i] + 87).toChar()
-            else -> list[i]
+            element > 9 -> 'a' + element - 10
+            else -> element
         }
     }
     return (s)
