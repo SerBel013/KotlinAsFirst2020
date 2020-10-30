@@ -130,7 +130,7 @@ fun abs(v: List<Double>): Double {
     for (element in v) {
         sum += sqr(element)
     }
-    return (sqrt(sum))
+    return sqrt(sum)
 }
 
 /**
@@ -149,10 +149,10 @@ fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() /
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val x = mean(list)
-    for (i in 0 until list.size) {
+    for (i in list.indices) {
         list[i] -= x
     }
-    return (list)
+    return list
 }
 
 
@@ -168,7 +168,7 @@ fun times(a: List<Int>, b: List<Int>): Int {
     for (i in a.indices) {
         c += a[i] * b[i]
     }
-    return (c)
+    return c
 }
 
 /**
@@ -195,7 +195,7 @@ fun accumulate(list: MutableList<Int>): MutableList<Int> {
     for (i in 1 until list.size) {
         list[i] += list[i - 1]
     }
-    return (list)
+    return list
 }
 
 /**
@@ -231,7 +231,7 @@ fun convert(n: Int, base: Int): List<Int> {
         n1 /= base
     }
     if (list.isEmpty()) list.add(0)
-    return (list.reversed())
+    return list.reversed()
 }
 
 /**
@@ -247,14 +247,14 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base)
-    var s = ""
+    val s = StringBuilder()
     for (element in list) {
-        s += when {
-            element > 9 -> 'a' + element - 10
-            else -> element
+        when {
+            element > 9 -> s.append('a' + element - 10)
+            else -> s.append(element)
         }
     }
-    return (s)
+    return s.toString()
 }
 
 /**
@@ -269,7 +269,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
     for (i in digits.size - 1 downTo 0) {
         sum += base.toDouble().pow((digits.size - 1 - i).toDouble()).toInt() * digits[i]
     }
-    return (sum)
+    return sum
 }
 
 /**
@@ -296,18 +296,18 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  */
 fun roman(n: Int): String {
     val x = listOf<Int>(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-    val x1 = listOf<Any>("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val x1 = listOf<String>("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
     var i = x.size - 1
-    var s = ""
+    val s = StringBuilder()
     var number = n
     while (number > 0) {
         while (x[i] <= number) {
-            s += x1[i]
+            s.append(x1[i])
             number -= x[i]
         }
         i -= 1
     }
-    return (s)
+    return s.toString()
 }
 
 /**
