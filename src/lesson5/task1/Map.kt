@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import ru.spbstu.wheels.getOrNull
+
 // Урок 5: ассоциативные массивы и множества
 // Максимальное количество баллов = 14
 // Рекомендуемое количество баллов = 9
@@ -97,12 +99,10 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
-    val list = mutableMapOf<Int, MutableList<String>>()
-    for ((name, grade) in grades) {
-        if (grade in list) list[grade]?.add(name)
-        else list[grade] = mutableListOf(name)
-    }
-    return list
+    val map = mutableMapOf<Int, MutableList<String>>()
+    for ((name, grade) in grades) 
+        map.getOrPut(grade, { mutableListOf<String>() }).add(name)
+    return map
 }
 
 /**
@@ -182,10 +182,8 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
     val price = mutableMapOf<String, MutableList<Double>>()
     val price1 = mutableMapOf<String, Double>()
-    for ((name, x) in stockPrices) {
-        if (name in price) price[name]?.add(x)
-        else price[name] = mutableListOf(x)
-    }
+    for ((name, x) in stockPrices)
+        price.getOrPut(name, { mutableListOf<Double>() }).add(x)
     for ((name, list) in price) {
         price1[name] = list.sum() / list.size
     }
@@ -233,15 +231,11 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  *   extractRepeats(listOf("a", "b", "a")) -> mapOf("a" to 2)
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
-    val repeat = mutableMapOf<String, MutableList<Int>>()
+    val repeat = mutableMapOf<String, Int>()
+    for (x in list) repeat[x] = repeat.getOrPut(x, { 0 }) + 1
     val repeat1 = mutableMapOf<String, Int>()
-    for (x in list) {
-        if (x in repeat) repeat[x]?.add(1)
-        else repeat[x] = mutableListOf(1)
-    }
-    for ((x, list1) in repeat) {
-        if (list1.size > 1) repeat1[x] = (list1.sum())
-    }
+    for ((x, b) in repeat)
+        if (b > 1) repeat1[x] = b
     return repeat1
 }
 
