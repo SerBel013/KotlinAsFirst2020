@@ -101,7 +101,7 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
 fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
     val map = mutableMapOf<Int, MutableList<String>>()
     for ((name, grade) in grades) 
-        map.getOrPut(grade, { mutableListOf<String>() }).add(name)
+        map.getOrPut(grade) { mutableListOf() }.add(name)
     return map
 }
 
@@ -232,7 +232,7 @@ fun canBuildFrom(chars: List<Char>, word: String): Boolean = TODO()
  */
 fun extractRepeats(list: List<String>): Map<String, Int> {
     val repeat = mutableMapOf<String, Int>()
-    for (x in list) repeat[x] = repeat.getOrPut(x, { 0 }) + 1
+    for (x in list) repeat[x] = repeat.getOrDefault(x, 0) + 1
     val repeat1 = mutableMapOf<String, Int>()
     for ((x, b) in repeat)
         if (b > 1) repeat1[x] = b
@@ -311,10 +311,11 @@ fun findSumOfTwo(list: List<Int>, number: Int): Pair<Int, Int> {
     var a = -1
     var b = -1
     for (i in list.indices) {
-        if ((number - list[i]) in map) {
-            a = map[number - list[i]]!!
+        val x = map[number - list[i]]
+        if (x != null) {
+            a = x
             b = i
-            break
+            return Pair(a, b)
         } else map[list[i]] = i
     }
     return Pair(a, b)
