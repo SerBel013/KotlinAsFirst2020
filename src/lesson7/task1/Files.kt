@@ -79,18 +79,23 @@ fun deleteMarked(inputName: String, outputName: String) {
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val text = File(inputName).bufferedReader()
     val map = mutableMapOf<String, Int>()
+    val set = mutableSetOf<String>()
     for (i in substrings) map[i] = 0
     for (line in text.readLines()) {
         for (e in substrings) {
-            val b = line.length - e.length
-            for (i in 0..b) {
-                var a = 0
-                var r = true
-                for (q in e.indices)
-                    if (line[i + a].toLowerCase() == e[q].toLowerCase()) a += 1 else r = false
-                if (r) map[e] = map.getOrDefault(e, 0) + 1
+            if (e !in set) {
+                set.add(e)
+                val b = line.length - e.length
+                for (i in 0..b) {
+                    var a = 0
+                    var r = true
+                    for (q in e.indices)
+                        if (line[i + a].toLowerCase() == e[q].toLowerCase()) a += 1 else r = false
+                    if (r) map[e] = map.getOrDefault(e, 0) + 1
+                }
             }
         }
+        set.clear()
     }
     return map
 }
@@ -237,6 +242,10 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
             } else writer.write(line[i].toString())
         }
         writer.newLine()
+    }
+    val k = map['\n']
+    if (text.toString() == "\n" || k != null) {
+        writer.write(k.toString())
     }
     writer.close()
 }
