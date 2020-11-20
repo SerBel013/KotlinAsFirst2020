@@ -241,12 +241,13 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
                 writer.write(s)
             } else writer.write(line[i].toString())
         }
+        val k = map['\n']
+        if (text.toString() == "\n" && k != null && text.toString() != "") {
+            writer.write(k.toString())
+        }
         writer.newLine()
     }
-    val k = map['\n']
-    if (text.toString() == "" || k != null) {
-        writer.write(k.toString())
-    }
+
     writer.close()
 }
 
