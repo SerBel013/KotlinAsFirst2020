@@ -244,7 +244,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
         writer.newLine()
     }
     val k = map['\n']
-    if (text.toString() == "\n" || k != null) {
+    if (text.toString() == "" || k != null) {
         writer.write(k.toString())
     }
     writer.close()
