@@ -293,7 +293,6 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
         }
         writer.newLine()
     }
-
     writer.close()
 }
 
