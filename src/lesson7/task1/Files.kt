@@ -80,22 +80,23 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val text = File(inputName).bufferedReader()
     val map = mutableMapOf<String, Int>()
     val set = mutableSetOf<String>()
+    set.addAll(substrings)
     for (i in substrings) map[i] = 0
     for (line in text.readLines()) {
-        for (e in substrings) {
-            if (e !in set) {
-                set.add(e)
-                val b = line.length - e.length
-                for (i in 0..b) {
-                    var a = 0
-                    var r = true
-                    for (q in e.indices)
-                        if (line[i + a].toLowerCase() == e[q].toLowerCase()) a += 1 else r = false
-                    if (r) map[e] = map.getOrDefault(e, 0) + 1
-                }
+        for (e in set) {
+            val b = line.length - e.length
+            for (i in 0..b) {
+                var a = 0
+                var r = true
+                for (q in e.indices)
+                    if (line[i + a].toLowerCase() == e[q].toLowerCase()) a += 1
+                    else {
+                        r = false
+                        break
+                    }
+                if (r) map[e] = map.getOrDefault(e, 0) + 1
             }
         }
-        set.clear()
     }
     return map
 }
@@ -136,7 +137,23 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val file = File(inputName).readLines()
+    var line1 = ""
+    var max = 0
+    for (line in file) {
+        line1 = line.trim()
+        if (line1.length > max) max = line1.length
+    }
+    var count = 0
+    for (line in file) {
+        line1 = line.trim()
+        count = (max - line1.length) / 2
+        writer.write(" ".repeat(count))
+        writer.write(line1)
+        writer.newLine()
+    }
+    writer.close()
 }
 
 /**
@@ -167,7 +184,36 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val file = File(inputName).readLines()
+    var line1 = ""
+    var max = 0
+    for (line in file) {
+        line1 = line.trim().replace(Regex("""(\s)+"""), " ")
+        if (line1.length > max) max = line1.length
+    }
+    var count = 0
+    var k = 0
+    var k1 = 0
+    for (line in file) {
+        line1 = line.trim().replace(Regex("""(\s)+"""), " ")
+        val list = line1.split(" ")
+        if (line.isEmpty() || list.size == 1) {
+            writer.write(line.trim())
+            writer.newLine()
+        } else {
+            count = (max - line1.length) / (list.size - 1)
+            k = (max - line1.length) % (list.size - 1)
+            for (i in list.indices) {
+                writer.write(list[i])
+                k1 = if (k < 1) 0 else 1
+                if (i != list.size - 1) writer.write(" ".repeat(1 + count + k1))
+                k -= 1
+            }
+            writer.newLine()
+        }
+    }
+    writer.close()
 }
 
 /**
