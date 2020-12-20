@@ -4,9 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
-import lesson3.task1.isPrime
-import ru.spbstu.ktuples.Tuple0.size
-import java.lang.Math.pow
+import java.io.File
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -139,6 +137,7 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size
+
 /**
  * Средняя (3 балла)
  *
@@ -318,3 +317,78 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+
+
+fun way(
+    str: String,
+    x1: Int,
+    x2: Int,
+    y1: Int,
+    y2: Int,
+    lab: Array<Array<Int>>,
+    n: Int,
+    m: Int
+): String {
+    var str1 = str
+    lab[x1][y1] = 0
+    if (x1 == x2 && y1 == y2) return "end"
+    if (x1 != n && lab[x1 + 1][y1] == 1 && !str1.startsWith("end")) {
+        str1 = way(str1, x1 + 1, x2, y1, y2, lab, n, m)
+        if (str1.startsWith("end")) str1 += 'd'
+    }
+    if (x1 != 0 && lab[x1 - 1][y1] == 1 && !str1.startsWith("end")) {
+        str1 = way(str1, x1 - 1, x2, y1, y2, lab, n, m)
+        if (str1.startsWith("end")) str1 += 'u'
+    }
+    if (y1 != m && lab[x1][y1 + 1] == 1 && !str1.startsWith("end")) {
+        str1 = way(str1, x1, x2, y1 + 1, y2, lab, n, m)
+        if (str1.startsWith("end")) str1 += 'r'
+    }
+    if (y1 != 0 && lab[x1][y1 - 1] == 1 && !str1.startsWith("end")) {
+        str1 = way(str1, x1, x2, y1 - 1, y2, lab, n, m)
+        if (str1.startsWith("end")) str1 += 'l'
+    }
+    if (str1.startsWith("end")) return str1
+    return ""
+}
+
+fun maze(inputName: String): String {
+    val file = File(inputName).readLines()
+    var x1 = -1
+    var y1 = -1
+    var x2 = -1
+    var y2 = -1
+    var n = 0
+    var m = 0
+    for (line in file) {
+        n += 1
+        m = line.length
+    }
+    var count = -1
+    var count1 = -1
+    var str = ""
+    val lab = Array(n) { Array(m) { 0 } }
+    for (line in file) {
+        count1 = -1
+        count += 1
+        for (i in line) {
+            count1 += 1
+            if (i == '*') {// координаты начала
+                x1 = count
+                y1 = count1
+            }
+            if (i == '^') {// координаты конца
+                x2 = count
+                y2 = count1
+            }
+            lab[count][count1] = when (i) {
+                '#' -> 0
+                '*' -> 0
+                else -> 1
+            }
+        }
+    }
+    str = way(str, x1, x2, y1, y2, lab, count, count1)
+    if (str == "") throw IllegalArgumentException()
+    return str.removePrefix("end").reversed()
+}

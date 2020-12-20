@@ -1,5 +1,7 @@
 package lesson4.task1
 
+import lesson6.task1.plusMinus
+import lesson7.task1.countSubstrings
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
@@ -239,4 +241,20 @@ class Tests {
         assertEquals("девятьсот тысяч", russian(900000))
         assertEquals("двенадцать", russian(12))
     }
+
+    @Test
+    fun maze() {
+        assertEquals(
+            "uuururrrd",
+            maze("input/maze.txt")
+        )
+        assertEquals(
+            "urrrurrru",
+            maze("input/maze1.txt")
+        )
+        assertThrows(IllegalArgumentException::class.java) { maze("input/maze2.txt") }
+        assertThrows(IllegalArgumentException::class.java) { maze("input/maze3.txt") }
+
+    }
+
 }
