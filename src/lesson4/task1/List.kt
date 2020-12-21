@@ -319,76 +319,67 @@ fun roman(n: Int): String {
 fun russian(n: Int): String = TODO()
 
 
-fun way(
-    str: String,
-    x1: Int,
-    x2: Int,
-    y1: Int,
-    y2: Int,
-    lab: Array<Array<Int>>,
-    n: Int,
-    m: Int
-): String {
-    var str1 = str
-    lab[x1][y1] = 0
-    if (x1 == x2 && y1 == y2) return "end"
-    if (x1 != n && lab[x1 + 1][y1] == 1 && !str1.startsWith("end")) {
-        str1 = way(str1, x1 + 1, x2, y1, y2, lab, n, m)
-        if (str1.startsWith("end")) str1 += 'd'
+fun way(str: String, start: Point, end: Point, lab: Array<Array<Int>>, n: Int, m: Int): String {
+    var road = str
+    lab[start.x][start.y] = 0
+    if (start.x == end.x && start.y == end.y) return "end"
+    if (start.x != n && lab[start.x + 1][start.y] == 1 && !road.startsWith("end")) {
+        road = way(road, Point(start.x + 1, start.y), Point(end.x, end.y), lab, n, m)
+        if (road.startsWith("end")) road += 'd'
     }
-    if (x1 != 0 && lab[x1 - 1][y1] == 1 && !str1.startsWith("end")) {
-        str1 = way(str1, x1 - 1, x2, y1, y2, lab, n, m)
-        if (str1.startsWith("end")) str1 += 'u'
+    if (start.x != 0 && lab[start.x - 1][start.y] == 1 && !road.startsWith("end")) {
+        road = way(road, Point(start.x - 1, start.y), Point(end.x, end.y), lab, n, m)
+        if (road.startsWith("end")) road += 'u'
     }
-    if (y1 != m && lab[x1][y1 + 1] == 1 && !str1.startsWith("end")) {
-        str1 = way(str1, x1, x2, y1 + 1, y2, lab, n, m)
-        if (str1.startsWith("end")) str1 += 'r'
+    if (start.y != m && lab[start.x][start.y + 1] == 1 && !road.startsWith("end")) {
+        road = way(road, Point(start.x, start.y + 1), Point(end.x, end.y), lab, n, m)
+        if (road.startsWith("end")) road += 'r'
     }
-    if (y1 != 0 && lab[x1][y1 - 1] == 1 && !str1.startsWith("end")) {
-        str1 = way(str1, x1, x2, y1 - 1, y2, lab, n, m)
-        if (str1.startsWith("end")) str1 += 'l'
+    if (start.y != 0 && lab[start.x][start.y - 1] == 1 && !road.startsWith("end")) {
+        road = way(road, Point(start.x, start.y - 1), Point(end.x, end.y), lab, n, m)
+        if (road.startsWith("end")) road += 'l'
     }
-    if (str1.startsWith("end")) return str1
+    if (road.startsWith("end")) return road
     return ""
 }
 
+class Point(var x: Int, var y: Int)
+
 fun maze(inputName: String): String {
     val file = File(inputName).readLines()
-    var x1 = -1
-    var y1 = -1
-    var x2 = -1
-    var y2 = -1
+    val start = Point(-1, -1)
+    val end = Point(-1, -1)
     var n = 0
     var m = 0
     for (line in file) {
-        n += 1
+        n++
         m = line.length
     }
-    var count = -1
-    var count1 = -1
+    var height = -1
+    var width = -1
     var str = ""
     val lab = Array(n) { Array(m) { 0 } }
     for (line in file) {
-        count1 = -1
-        count += 1
+        width = -1
+        height++
         for (i in line) {
-            count1 += 1
+            width++
             if (i == '*') {// координаты начала
-                x1 = count
-                y1 = count1
+                start.x = height
+                start.y = width
             }
             if (i == '^') {// координаты конца
-                x2 = count
-                y2 = count1
+                end.x = height
+                end.y = width
             }
-            lab[count][count1] = when (i) {
+            lab[height][width] = when (i) {
                 '#' -> 0
                 '*' -> 0
                 else -> 1
             }
         }
     }
-    str = way(str, x1, x2, y1, y2, lab, count, count1)
+    str = way(str, start, end, lab, height, width)
     if (str == "") throw IllegalArgumentException()
     return str.removePrefix("end").reversed()
 }
