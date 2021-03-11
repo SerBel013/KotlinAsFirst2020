@@ -103,7 +103,7 @@ class TableFunction {
                 val j = leftPair
                 leftPair = Pair(first, second)
                 leftPair2 = j
-            }
+            } else if (first < x && first > leftPair2.first) leftPair2 = Pair(first, second)
         }
         if (rightPair.first != Double.POSITIVE_INFINITY && leftPair.first != Double.NEGATIVE_INFINITY)
             return leftPair.second + (rightPair.second - leftPair.second) * (x - leftPair.first) / (rightPair.first - leftPair.first)
